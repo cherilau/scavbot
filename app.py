@@ -1,0 +1,87 @@
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
+from telegram.ext import Application, CommandHandler, CallbackContext, CallbackQueryHandler, ContextTypes, MessageHandler, ConversationHandler, filters
+# import re
+import logging
+import os
+from dotenv import load_dotenv
+from hint import *
+
+logging.basicConfig(
+    format = '%(asctime)s -- %(name)s -- %(levelname)s -- %(message)s',
+    level = logging.INFO
+)
+
+logger = logging.getLogger(__name__)
+
+load_dotenv("./.env")
+TOKEN = os.getenv("token")
+
+
+async def start(update: Update, context: CallbackContext):
+    reply_keyboard = [
+        ["🔍 Get a Hint"],
+        ["🗺️ Show Map", "🧩 Show Riddles"],
+        ["🙋🏻 Answer a Riddle"],
+        ["🗣️ Talk to the Game Master"]
+    ]
+
+    await update.message.reply_text(
+        "Hi! Welcome. [insert more message here]",
+        # reply_markup=InlineKeyboardMarkup(keyboard),
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+    )
+
+
+async def map(update: Update, context: CallbackContext):
+    await update.message.reply_photo("scav_map.jpg", "Here's the map!")
+
+async def riddles(update: Update, context: CallbackContext):
+    await update.message.reply_text(
+        "chuck riddles here later"
+    )
+
+async def contact(update: Update, context: CallbackContext):
+    await update.message.reply_text(
+        "Want to talk to the game master? No problem!\n\n"
+        "For riddles, message @cloewhat.\n"
+        "For photos, message @changheng1."
+    )
+
+
+
+def main():
+    # updater = Updater(TOKEN)
+    # dp = updater.dispatcher
+    app = Application.builder().token(TOKEN).build()
+
+    # slash commands
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("hint", hint))
+    app.add_handler(CommandHandler("map", map)) # sends the map
+    app.add_handler(CommandHandler("riddles", riddles)) # sends the map
+    # app.add_handler(CommandHandler("answer", answer)) 
+    app.add_handler(CommandHandler("contact", contact)) 
+
+    # callback commands for hint
+    app.add_handler(CallbackQueryHandler(hint, pattern='hint'))
+    app.add_handler(CallbackQueryHandler(choose_hint_riddle, pattern='^riddle$'))
+    app.add_handler(CallbackQueryHandler(show_hint_riddle, pattern='^riddle [1-5]$'))
+
+
+
+
+    # inline button commands
+    app.add_handler(MessageHandler(filters.Regex("🔍 Get a Hint"), hint))    
+    app.add_handler(MessageHandler(filters.Regex("🗺️ Show Map"), map))
+    app.add_handler(MessageHandler(filters.Regex("🧩 Show Riddles"), riddles))    
+    # app.add_handler(MessageHandler(filters.Regex("🙋🏻 Answer a Riddle"), answer))
+    app.add_handler(MessageHandler(filters.Regex("🗣️ Talk to the Game Master"), contact))    
+
+    # dp.add_handler(MessageHandler(Filters.text, start))
+
+    # Run the bot until the user presses Ctrl-C
+    app.run_polling(allowed_updates=Update.ALL_TYPES)
+
+
+if __name__ == '__main__':
+    main()
