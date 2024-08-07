@@ -5,11 +5,6 @@ async def map(update: Update, context: CallbackContext):
 
 async def riddles(update: Update, context: CallbackContext):
     await update.message.reply_text(
-        # "**RIDDLE #1**\n"
-        # "Outside the school where lawyers train,\n"
-        # "runs a street with no lanes.\n"
-        # "Read the signs and you will see,\n"
-        # "The fruit - _ _ _ _ _ _  _ _ _ _ _ you seek, adds fragrance and acidity to curries."
         """
 <b>RIDDLE #1</b>
 <blockquote>Outside the school where lawyers train,
@@ -18,11 +13,11 @@ Read the signs and you will see,
 The fruit - _ _ _ _ _ _  _ _ _ _ _ you seek, adds fragrance and acidity to curries.</blockquote>
 
 <b>RIDDLE #2</b> 
-<blockquote>On the same road as Singapore's oldest fire station.           
-Stands a building full of history and colour                                    
+<blockquote>On the same road as Singapore's oldest fire station.
+Stands a building full of history and colour
 Walk along the side and read about the bridges of this nation
 The one you seek, is named after Straits Settlements first governor,
- _ _ _  _ _ _ _ _ _</blockquote>                  
+ _ _ _  _ _ _ _ _ _</blockquote>
 
 <b>RIDDLE #3</b> 
 <blockquote>On top of a mall built for tech,
