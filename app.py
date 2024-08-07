@@ -4,7 +4,12 @@ from telegram.ext import Application, CommandHandler, CallbackContext, CallbackQ
 import logging
 import os
 from dotenv import load_dotenv
-from hint import *
+
+# importing all the code i've put in a folder for no other reason than cleaniness and visual pleasure
+from commands.contact import *
+from commands.hint import *
+from commands.show import *
+from commands.start import *
 
 logging.basicConfig(
     format = '%(asctime)s -- %(name)s -- %(levelname)s -- %(message)s',
@@ -15,38 +20,6 @@ logger = logging.getLogger(__name__)
 
 load_dotenv("./.env")
 TOKEN = os.getenv("token")
-
-
-async def start(update: Update, context: CallbackContext):
-    reply_keyboard = [
-        ["🔍 Get a Hint"],
-        ["🗺️ Show Map", "🧩 Show Riddles"],
-        ["🙋🏻 Answer a Riddle"],
-        ["🗣️ Talk to the Game Master"]
-    ]
-
-    await update.message.reply_text(
-        "Hi! Welcome. [insert more message here]",
-        # reply_markup=InlineKeyboardMarkup(keyboard),
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard)
-    )
-
-
-async def map(update: Update, context: CallbackContext):
-    await update.message.reply_photo("scav_map.jpg", "Here's the map!")
-
-async def riddles(update: Update, context: CallbackContext):
-    await update.message.reply_text(
-        "chuck riddles here later"
-    )
-
-async def contact(update: Update, context: CallbackContext):
-    await update.message.reply_text(
-        "Want to talk to the game master? No problem!\n\n"
-        "For riddles, message @cloewhat.\n"
-        "For photos, message @changheng1."
-    )
-
 
 
 def main():
@@ -66,8 +39,6 @@ def main():
     app.add_handler(CallbackQueryHandler(hint, pattern='hint'))
     app.add_handler(CallbackQueryHandler(choose_hint_riddle, pattern='^riddle$'))
     app.add_handler(CallbackQueryHandler(show_hint_riddle, pattern='^riddle [1-5]$'))
-
-
 
 
     # inline button commands
