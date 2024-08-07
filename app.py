@@ -39,7 +39,8 @@ def main():
     app.add_handler(CallbackQueryHandler(hint, pattern='hint'))
     app.add_handler(CallbackQueryHandler(choose_hint_riddle, pattern='^riddle$'))
     app.add_handler(CallbackQueryHandler(show_hint_riddle, pattern='^riddle [1-5]$'))
-
+    app.add_handler(CallbackQueryHandler(choose_hint_photo, pattern='^photo$'))
+    app.add_handler(CallbackQueryHandler(show_hint_photo, pattern='^photo [1-8]$'))
 
     # inline button commands
     app.add_handler(MessageHandler(filters.Regex("🔍 Get a Hint"), hint))    
