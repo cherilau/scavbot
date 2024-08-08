@@ -2,9 +2,9 @@ from common import *
 
 async def start(update: Update, context: CallbackContext):
     reply_keyboard = [
-        ["🔍 Get a Hint"],
+        ["🔍 Get a Hint", "🙋🏻 Answer a Riddle"],
         ["🗺️ Show Map", "🧩 Show Riddles"],
-        ["🙋🏻 Answer a Riddle"],
+        ["🧸 Show Items", "📸 Show Photos"],
         ["🗣️ Talk to the Game Master"]
     ]
 

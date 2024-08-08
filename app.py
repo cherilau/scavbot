@@ -34,7 +34,9 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("hint", hint))
     app.add_handler(CommandHandler("map", map)) # sends the map
-    app.add_handler(CommandHandler("riddles", riddles)) # sends the map
+    app.add_handler(CommandHandler("riddles", riddles)) # sends the riddles
+    app.add_handler(CommandHandler("items", items)) # sends the map
+    app.add_handler(CommandHandler("photo", photo)) # sends the riddles
     app.add_handler(CommandHandler("contact", contact)) 
 
     # callback commands for hint
@@ -49,7 +51,8 @@ def main():
     app.add_handler(MessageHandler(filters.Regex("🗺️ Show Map"), map))
     app.add_handler(MessageHandler(filters.Regex("🧩 Show Riddles"), riddles))    
     app.add_handler(MessageHandler(filters.Regex("🗣️ Talk to the Game Master"), contact))
-    # dp.add_handler(MessageHandler(Filters.text, start))
+    app.add_handler(MessageHandler(filters.Regex("🧸 Show Items"), item))    
+    app.add_handler(MessageHandler(filters.Regex("📸 Show Photos"), photo))
 
     # this entire thing is for the answer 
     conv_handler = ConversationHandler(

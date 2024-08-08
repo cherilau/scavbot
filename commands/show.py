@@ -1,11 +1,14 @@
 from common import * 
+from telegram import InputMediaPhoto
 
 async def map(update: Update, context: CallbackContext):
-    await update.message.reply_photo("scav_map.jpg", "Here's the map!")
+    await update.message.reply_photo("images/scav_map.jpg", "Here's the map!")
 
 async def riddles(update: Update, context: CallbackContext):
     await update.message.reply_text(
         """
+[100 points each]
+
 <b>RIDDLE #1</b>
 <blockquote>Outside the school where lawyers train,
 runs a street with no lanes. 
@@ -44,3 +47,36 @@ Authority made it right.</blockquote>
         parse_mode = "HTML"
 
     )
+
+async def item(update: Update, context: CallbackContext):
+     await update.message.reply_text(
+        """
+[10 points each]
+Here are the 10 items you need to find a snap a photo together with!\n
+1. E-bike
+2. Recycling Blue Bins 
+3. Public bicycle pump ready for use
+4. Lightning rod atop a building
+5. Solar Panels 
+6. CCTV ensuring security
+7. Public Bench with Charging 
+8. A bus stop displaying real-time arrival timings
+9. A contactless vending machine offering snacks
+10. Singapore flags proudly aligned
+"""
+     )
+
+async def photo(update: Update, context: CallbackContext):
+    # await update.message.reply_text(
+    #     "[50 points each]")
+    list_of_media = [InputMediaPhoto(media=open('images/photo_01.jpg', 'rb')),
+                     InputMediaPhoto(media=open('images/photo_02.jpg', 'rb')),
+                     InputMediaPhoto(media=open('images/photo_03.jpg', 'rb')),
+                     InputMediaPhoto(media=open('images/photo_04.jpg', 'rb')),
+                     InputMediaPhoto(media=open('images/photo_05.jpg', 'rb')),
+                     InputMediaPhoto(media=open('images/photo_06.jpg', 'rb')),                     
+                     InputMediaPhoto(media=open('images/photo_07.jpg', 'rb')),
+                     InputMediaPhoto(media=open('images/photo_08.jpg', 'rb')),
+                ]
+
+    await update.message.reply_media_group(list_of_media, caption = "[50 points each]")
