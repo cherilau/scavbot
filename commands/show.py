@@ -48,7 +48,7 @@ Authority made it right.</blockquote>
 
     )
 
-async def item(update: Update, context: CallbackContext):
+async def items(update: Update, context: CallbackContext):
      await update.message.reply_text(
         """
 [10 points each]

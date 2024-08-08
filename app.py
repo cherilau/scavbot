@@ -51,7 +51,7 @@ def main():
     app.add_handler(MessageHandler(filters.Regex("🗺️ Show Map"), map))
     app.add_handler(MessageHandler(filters.Regex("🧩 Show Riddles"), riddles))    
     app.add_handler(MessageHandler(filters.Regex("🗣️ Talk to the Game Master"), contact))
-    app.add_handler(MessageHandler(filters.Regex("🧸 Show Items"), item))    
+    app.add_handler(MessageHandler(filters.Regex("🧸 Show Items"), items))    
     app.add_handler(MessageHandler(filters.Regex("📸 Show Photos"), photo))
 
     # this entire thing is for the answer 
