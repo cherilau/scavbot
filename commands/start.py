@@ -7,9 +7,9 @@ async def start(update: Update, context: CallbackContext):
     )
 
 async def quit(update: Update, context: CallbackContext):
+    # used to quit conversations
     await update.message.reply_text(
         "The process has been stopped.",
         reply_markup=ReplyKeyboardMarkup(default_reply_keyboard)
     )
-
     return -1

@@ -49,7 +49,6 @@ def run_sql_file(sql_file):
 
     for command in commands:
         cursor.execute(command)
-        print(command)
 
     conn.commit()
 
