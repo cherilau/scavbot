@@ -41,7 +41,22 @@ def main():
     app.add_handler(CommandHandler("photo", photo)) # sends the photo
     app.add_handler(CommandHandler("contact", contact)) 
     app.add_handler(CommandHandler("check_progress", check_progress)) 
+    app.add_handler(CommandHandler("about", about)) 
 
+    
+    # inline button commands
+    app.add_handler(MessageHandler(filters.Regex("🔍 Get a Hint"), hint))   
+    app.add_handler(MessageHandler(filters.Regex("👁️ Show Mission Brief"), show_all))
+    app.add_handler(MessageHandler(filters.Regex("🗣️ Talk to the Game Master"), contact))
+    app.add_handler(MessageHandler(filters.Regex("🎯 Check Progress"), check_progress)) 
+    app.add_handler(MessageHandler(filters.Regex("🏙️ About"), about)) 
+
+    # inline button - show
+    app.add_handler(MessageHandler(filters.Regex("🗺️ Show Map"), map))
+    app.add_handler(MessageHandler(filters.Regex("🧩 Show Riddles"), riddles))    
+    app.add_handler(MessageHandler(filters.Regex("🧸 Show Items"), items))    
+    app.add_handler(MessageHandler(filters.Regex("📸 Show Photos"), photo))
+    app.add_handler(MessageHandler(filters.Regex("⏪ Go Back"), go_back))
 
 
     # callback commands for hint
@@ -50,14 +65,6 @@ def main():
     app.add_handler(CallbackQueryHandler(show_hint_riddle, pattern='^riddle [1-5]$'))
     app.add_handler(CallbackQueryHandler(choose_hint_photo, pattern='^photo$'))
     app.add_handler(CallbackQueryHandler(show_hint_photo, pattern='^photo [1-8]$'))
-    
-    # inline button commands
-    app.add_handler(MessageHandler(filters.Regex("🔍 Get a Hint"), hint))    
-    app.add_handler(MessageHandler(filters.Regex("🗺️ Show Map"), map))
-    app.add_handler(MessageHandler(filters.Regex("🧩 Show Riddles"), riddles))    
-    app.add_handler(MessageHandler(filters.Regex("🗣️ Talk to the Game Master"), contact))
-    app.add_handler(MessageHandler(filters.Regex("🧸 Show Items"), items))    
-    app.add_handler(MessageHandler(filters.Regex("📸 Show Photos"), photo))
 
     # this entire thing is for the answer 
     conv_handler = ConversationHandler(
