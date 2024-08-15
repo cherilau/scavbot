@@ -52,15 +52,6 @@ async def ask_for_answer(update: Update, context: CallbackContext):
             )
         return ANSWER
 
-    # else: # actually this will never get here because of regex
-    #     # shove them back to choosing a question
-    #     reply_keyboard = [["Riddle 1", "Riddle 2"],["Riddle 3", "Riddle 4"], ["Riddle 5", "↩️ Back"]]
-    #     await update.message.reply_text(
-    #         "What riddle would you like to answer?",
-    #         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
-    #     )
-    #     return CHOOSING
-
 
 async def answer(update: Update, context: CallbackContext):
     answer_list = ["", "kaffir limes","ORD BRIDGE","Urban Farm","Jurong Road","Urban Redevelopment"]
@@ -73,7 +64,6 @@ async def answer(update: Update, context: CallbackContext):
             ["🗣️ Talk to the Game Master"]
         ]
         # check if answer matches
-        # await update.message.reply_text(update.message.text)
 
         if update.message.text.lower().strip() == answer_list[num].lower():
             await update.message.reply_text(
