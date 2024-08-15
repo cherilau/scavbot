@@ -6,11 +6,6 @@ num = 0
 CHOOSING, ANSWER = range(2)
 
 async def choose_answer(update: Update, context: CallbackContext):
-    inline_riddle_keyboard = [
-        [InlineKeyboardButton("Riddle 1", callback_data="answer 1"), InlineKeyboardButton("Riddle 2", callback_data="answer 2")],
-        [InlineKeyboardButton("Riddle 3", callback_data="answer 3"), InlineKeyboardButton("Riddle 4", callback_data="answer 4")],
-        [InlineKeyboardButton("Riddle 5", callback_data="answer 5"), InlineKeyboardButton("↩️ Back", callback_data="answer")],
-    ]
 
     reply_keyboard = [
         ["Riddle 1", "Riddle 2"],
@@ -35,6 +30,7 @@ async def choose_answer(update: Update, context: CallbackContext):
 
 
 async def ask_for_answer(update: Update, context: CallbackContext):
+   
     global num
     if update.message.text[-1] in ["1", "2", "3", "4", "5"]:
         num = int(update.message.text[-1])
@@ -56,6 +52,7 @@ async def ask_for_answer(update: Update, context: CallbackContext):
 
 async def answer(update: Update, context: CallbackContext):
     answer_list = ["", "kaffir limes","ORD BRIDGE","Urban Farm","Jurong Road","Urban Redevelopment"]
+
     if num < 6 and num > 0:
         reply_keyboard = [
             ["🔍 Get a Hint", "🙋🏻 Answer a Riddle"],
@@ -64,12 +61,14 @@ async def answer(update: Update, context: CallbackContext):
             ["🗣️ Talk to the Game Master"]
         ]
         # check if answer matches
+        # await update.message.reply_text(update.message.text)
+
         if update.message.text.lower().strip() == answer_list[num].lower():
-             await update.message.reply_text(
+            await update.message.reply_text(
                 f"_{answer_list[num]}_ is correct\!",
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard),
                 parse_mode = "MarkdownV2" # give back the options from start
-        )
+            )
         else:
             await update.message.reply_text(
                 f"_{update.message.text}_ is incorrect\!\n\nHint: Check if the number of characters match\.",
@@ -79,7 +78,6 @@ async def answer(update: Update, context: CallbackContext):
         
         return ConversationHandler.END # either way the convo ends here. will have to go back to answer a riddle to start again
 
-      
     else: # should never get here. but just in case...
         reply_keyboard = [["Riddle 1", "Riddle 2"],["Riddle 3", "Riddle 4"],["Riddle 5", "↩️ Back"]]
         await update.message.reply_text(

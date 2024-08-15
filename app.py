@@ -35,8 +35,8 @@ def main():
     app.add_handler(CommandHandler("hint", hint))
     app.add_handler(CommandHandler("map", map)) # sends the map
     app.add_handler(CommandHandler("riddles", riddles)) # sends the riddles
-    app.add_handler(CommandHandler("items", items)) # sends the map
-    app.add_handler(CommandHandler("photo", photo)) # sends the riddles
+    app.add_handler(CommandHandler("items", items)) # sends the items
+    app.add_handler(CommandHandler("photo", photo)) # sends the photo
     app.add_handler(CommandHandler("contact", contact)) 
 
     # callback commands for hint
