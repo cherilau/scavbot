@@ -21,19 +21,14 @@ async def verify(update: Update, context: CallbackContext):
         return GROUP
 
 async def group(update: Update, context: CallbackContext):
-    print("now at group")
-    print(f"select * from s_group where name = '{update.message.text.strip()}';")
-
     if fetch_one(f"select * from s_group where name = '{update.message.text.strip()}';") != None:
         # group exists
         await update.message.reply_text("Got it! What's the password?")
         context.user_data["group"] = update.message.text.strip()
         return PWD
     else:
-        await update.message.reply_text("Hm... I don't see a group with that name. Let's try again. \n\n<i>Hint: You should have received a message from the Game Masters with your group name and password.</i>", parse_mode = 'HTML')
+        await update.message.reply_text("Hm... I don't see a group with that name. Let's try again. \n\n<i>Hint: You should have received a message from the Game Masters with your group name and password.\n\n Use /quit to stop the process anytime.")
         return GROUP
-
-
 
 async def password(update: Update, context: CallbackContext):
     group_name = context.user_data["group"]
@@ -57,9 +52,3 @@ async def password(update: Update, context: CallbackContext):
     else:
         await update.message.reply_text("That is incorrect! Try again or use /quit to stop the verification process.")
  
-
-
-    # print(result)
-
-
-
