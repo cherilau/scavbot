@@ -36,11 +36,8 @@ async def check_progress(update: Update, context: CallbackContext):
 
     await update.message.reply_text(str_to_present, 
         reply_markup=ReplyKeyboardMarkup(default_reply_keyboard)
-        )
+    )
     
-
-
-
 
 
 async def choose_answer(update: Update, context: CallbackContext):
@@ -89,66 +86,72 @@ async def ask_for_answer(update: Update, context: CallbackContext):
         and u.group_name = (select group_name from user where username = '{user}');
         '''.format(num=num, user=update.message.from_user["username"])
 
-        if fetch_one(sql_statement) == None:
+        result = fetch_one(sql_statement)
+        if result == None:
             await update.message.reply_text(
                 f"What is your answer for riddle {num}?",
                 reply_markup=ReplyKeyboardRemove()
             )
             return ANSWER
         else: 
-            await update.message.reply_text(
-                f"You or a teammate has already answered this",
-            )
+            # check if it's by user or by user's teammate
+            if result['user'] == update.message.from_user["username"]:
+                await update.message.reply_text(
+                    "You have already answered this question.",
+                    reply_markup = ReplyKeyboardMarkup(default_reply_keyboard))
+            else: 
+                await update.message.reply_text(
+                    f"This question has already been answered by your team member, @{result['user']}",
+                    reply_markup = ReplyKeyboardMarkup(default_reply_keyboard))
 
-
+            return ConversationHandler.END
 
 async def answer(update: Update, context: CallbackContext):
-    answer_list = ["", "kaffir limes","ORD BRIDGE","Urban Farm","Jurong Road","Urban Redevelopment"]
-
-    if num < 6 and num > 0:
-        # check if answer matches
-
-        if update.message.text.lower().strip() == answer_list[num].lower():
-            await update.message.reply_text(
-                f"_{answer_list[num]}_ is correct\!",
-                reply_markup=ReplyKeyboardMarkup(default_reply_keyboard),
-                parse_mode = "MarkdownV2" # give back the options from start
-            )
-            # insert database stuff here, only if correct
-            username = update.message.from_user["username"]
-            cur_time = datetime.now()
-
-            if fetch_one("select * from timestamp where riddle = '{riddle}' and user = '{user}'".format(riddle = num, user = username)) != None:
-                await update.message.reply_text(
-                    "You have already answered this question correctly! Use /check_progress to see more!"
-                )
-            else:
-                sql_statement = "insert into timestamp (riddle, user, timestamp) values ('{riddle}', '{user}', '{timestamp}');"\
-                                .format(riddle = num, user = username, timestamp = cur_time)
-                try:
-                    execute_sql_statement(sql_statement)
-                except mysql.connector.Error as e:
-                    if e.errno == 1644:
-                        await update.message.reply_text(
-                            "A group member has already answered this question! Use /check_progress to see more!"
-                        )
-            
-        else:
-            await update.message.reply_text(
-                f"_{update.message.text}_ is incorrect\!\n\nHint: Check if the number of characters match\.",
-                reply_markup=ReplyKeyboardMarkup(reply_keyboard),
-                parse_mode = "MarkdownV2" # give back the options from start
-            )
+    # answer_list = ["", "kaffir limes","ORD BRIDGE","Urban Farm","Jurong Road","Urban Redevelopment"]
+    if ('answer_list' not in context.user_data):
+        answer_list = [""]
+        result_list = fetch_many("select * from riddle order by num asc;")
+        for result in result_list:
+            answer_list.append(result['answer'])
+        context.user_data['answer_list'] = answer_list
+    else:
+        answer_list = context.user_data['answer_list']
         
-        return ConversationHandler.END # either way the convo ends here. will have to go back to answer a riddle to start again
-
-    else: # should never get here. but just in case...
-        reply_keyboard = [["Riddle 1", "Riddle 2"],["Riddle 3", "Riddle 4"],["Riddle 5", "↩️ Back"]]
+    if update.message.text.lower().strip() == answer_list[num].lower():
         await update.message.reply_text(
-            "What riddle would you like to answer?",
-            reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+            f"_{answer_list[num]}_ is correct\!",
+            reply_markup=ReplyKeyboardMarkup(default_reply_keyboard),
+            parse_mode = "MarkdownV2" # give back the options from start
+        )
+        # insert database stuff here, only if correct
+        username = update.message.from_user["username"]
+        cur_time = datetime.now()
+
+        if fetch_one("select * from timestamp where riddle = '{riddle}' and user = '{user}'".format(riddle = num, user = username)) != None:
+            await update.message.reply_text(
+                "You have already answered this question correctly! Use /check_progress to see more!"
             )
-        return CHOOSING
+        else:
+            sql_statement = "insert into timestamp (riddle, user, timestamp) values ('{riddle}', '{user}', '{timestamp}');"\
+                            .format(riddle = num, user = username, timestamp = cur_time)
+            try:
+                execute_sql_statement(sql_statement)
+            except mysql.connector.Error as e:
+                if e.errno == 1644:
+                    await update.message.reply_text(
+                        "A group member has already answered this question! Use /check_progress to see more!"
+                    )
+
+        return ConversationHandler.END
+
+    else:
+        await update.message.reply_text(
+            f"_{update.message.text}_ is incorrect\!\n\nHint: Check if the number of characters match\.",
+            reply_markup=ReplyKeyboardMarkup(default_reply_keyboard),
+            parse_mode = "MarkdownV2" # give back the options from start
+        )
+    
+        return ConversationHandler.END # either way the convo ends here. will have to go back to answer a riddle to start again
 
 
 async def no_answer(update: Update, context: CallbackContext):
