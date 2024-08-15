@@ -1,30 +1,24 @@
 import mysql.connector
 
-def check_if_exists(sql_statement):
-    conn = mysql.connector.connect(user = 'root',
-                                host = 'localhost',
-                                password = 'root',
-                                database = 'scav',
-                                port = 8889) # hardcoded
+config = {
+    "user": "root",
+    "host": "localhost",
+    "password": "root",
+    "database": "scav",
+    "port": 8889,
+    "host": "127.0.0.1"
+}
 
-    cursor = conn.cursor()
-
+def fetch_one(sql_statement):
+    conn = mysql.connector.connect(**config)
+    cursor = conn.cursor(dictionary=True)
     cursor.execute(sql_statement)
-    row = cursor.fetchone()
-    if row == None:
-        return False # does not exist
-    else:
-        return True
+    result = cursor.fetchone()
+    conn.close()
+    return result
 
-    conn.close()  
-
-
-def return_database_results(sql_statement):
-    conn = mysql.connector.connect(user = 'root',
-                                host = 'localhost',
-                                password = 'root',
-                                database = 'scav',
-                                port = 8889) # hardcoded
+def fetch_many(sql_statement):
+    conn = mysql.connector.connect(**config)
 
     cursor = conn.cursor(dictionary=True)
     cursor.execute(sql_statement)
@@ -36,23 +30,17 @@ def return_database_results(sql_statement):
 
 
 def execute_sql_statement(sql_statement):
-    conn = mysql.connector.connect(user = 'root',
-                            host = 'localhost',
-                            password = 'root',
-                            database = 'scav',
-                            port = 8889) # hardcoded
+    conn = mysql.connector.connect(**config)
 
     cursor = conn.cursor()
     cursor.execute(sql_statement)
     conn.commit()
     conn.close()  
 
+
 def run_sql_file(sql_file):
-    conn = mysql.connector.connect(user = 'root',
-                                host = 'localhost',
-                                password = 'root',
-                                database = 'scav',
-                                port = 8889) # hardcoded
+    # note: this is a WORKAROUND. only can run simple sql files
+    conn = mysql.connector.connect(**config) 
 
     cursor = conn.cursor()
 

@@ -1,5 +1,5 @@
 from common import *
-from database import check_if_exists
+from database import *
 from datetime import datetime
 
 global num
@@ -12,7 +12,7 @@ async def choose_answer(update: Update, context: CallbackContext):
     # check if verified first
     if ('verified' not in context.user_data):
         user = update.message.from_user["username"]
-        if check_if_exists(f"select * from user where username = '{user}';") == True:
+        if fetch_one(f"select * from user where username = '{user}';") != None:
             context.user_data['verified'] = True
         else:
             await update.message.reply_text(
@@ -75,7 +75,7 @@ async def answer(update: Update, context: CallbackContext):
             username = update.message.from_user["username"]
             cur_time = datetime.now()
 
-            if check_if_exists("select * from timestamp where riddle = '{riddle}' and user = '{user}'".format(riddle = num, user = username)):
+            if fetch_one("select * from timestamp where riddle = '{riddle}' and user = '{user}'".format(riddle = num, user = username)) != None:
                 await update.message.reply_text(
                     "You have already answered this question correctly! Use /check_progress to see more!"
                 )
@@ -90,8 +90,6 @@ async def answer(update: Update, context: CallbackContext):
                             "A group member has already answered this question! Use /check_progress to see more!"
                         )
             
-
-
         else:
             await update.message.reply_text(
                 f"_{update.message.text}_ is incorrect\!\n\nHint: Check if the number of characters match\.",

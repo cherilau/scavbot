@@ -11,7 +11,7 @@ async def verify(update: Update, context: CallbackContext):
     # if no, start conversation handler where we ask them for group and password
     user = update.message.from_user["username"]
 
-    if check_if_exists(f"select * from user where username = '{user}';"):
+    if fetch_one(f"select * from user where username = '{user}';") != None:
         # the user exists
         reply_keyboard = [
             ["🔍 Get a Hint", "🙋🏻 Answer a Riddle"],
@@ -30,7 +30,7 @@ async def group(update: Update, context: CallbackContext):
     print("now at group")
     print(f"select * from s_group where name = '{update.message.text.strip()}';")
 
-    if check_if_exists(f"select * from s_group where name = '{update.message.text.strip()}';"):
+    if fetch_one(f"select * from s_group where name = '{update.message.text.strip()}';") != None:
         # group exists
         await update.message.reply_text("Got it! What's the password?")
         context.user_data["group"] = update.message.text.strip()
@@ -43,8 +43,8 @@ async def group(update: Update, context: CallbackContext):
 
 async def password(update: Update, context: CallbackContext):
     group_name = context.user_data["group"]
-    result = return_database_results(f"select * from s_group where name = '{group_name}';")
-    password = result[0]['password']
+    result = fetch_one(f"select * from s_group where name = '{group_name}';")
+    password = result['password']
 
     if update.message.text.strip() == password:
         # enter user into database
