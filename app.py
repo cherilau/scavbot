@@ -40,6 +40,8 @@ def main():
     app.add_handler(CommandHandler("items", items)) # sends the items
     app.add_handler(CommandHandler("photo", photo)) # sends the photo
     app.add_handler(CommandHandler("contact", contact)) 
+    app.add_handler(CommandHandler("check_progress", check_progress)) 
+
 
 
     # callback commands for hint

@@ -7,8 +7,43 @@ num = 0
 
 CHOOSING, ANSWER = range(2)
 
-async def choose_answer(update: Update, context: CallbackContext):
+async def check_progress(update: Update, context: CallbackContext):
 
+    sql_statement = '''
+        select * from timestamp t, user u 
+        where u.username = t.user
+        and u.group_name = (select group_name from user where username = '{user}');
+    '''.format(num=num, user=update.message.from_user["username"])
+    results = fetch_many(sql_statement)
+    list_of_completed = []
+    for dict in results:
+        if dict["riddle"] not in list_of_completed:
+            list_of_completed.append(dict["riddle"])
+    str_to_present = "Here's your current progress.\n\n"
+    for i in range(1,6): # hardcoded for 5 questions, can be replaced by one select count(*) of riddle
+        str_to_present += f"Question {i}: "
+        if i in list_of_completed:
+            str_to_present += "✅"
+        else:
+            str_to_present += "❓"
+        str_to_present += "\n"
+
+    if len(list_of_completed) == 5: # hardcoded, all complete
+        str_to_present += "\nYou're all done! Good job!"
+    else:
+        num_left = 5 - len(list_of_completed)
+        str_to_present += f"\n{num_left} left. Keep up the good work!"
+
+    await update.message.reply_text(str_to_present, 
+        reply_markup=ReplyKeyboardMarkup(default_reply_keyboard)
+        )
+    
+
+
+
+
+
+async def choose_answer(update: Update, context: CallbackContext):
     # check if verified first
     if ('verified' not in context.user_data):
         user = update.message.from_user["username"]
