@@ -1,5 +1,6 @@
 from common import *
 from database import check_if_exists
+from datetime import datetime
 
 global num
 num = 0
@@ -42,7 +43,6 @@ async def choose_answer(update: Update, context: CallbackContext):
 
 
 async def ask_for_answer(update: Update, context: CallbackContext):
-   
     global num
     if update.message.text[-1] in ["1", "2", "3", "4", "5"]:
         num = int(update.message.text[-1])
@@ -71,6 +71,26 @@ async def answer(update: Update, context: CallbackContext):
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard),
                 parse_mode = "MarkdownV2" # give back the options from start
             )
+            # insert database stuff here, only if correct
+            username = update.message.from_user["username"]
+            cur_time = datetime.now()
+
+            if check_if_exists("select * from timestamp where riddle = '{riddle}' and user = '{user}'".format(riddle = num, user = username)):
+                await update.message.reply_text(
+                    "You have already answered this question correctly! Use /check_progress to see more!"
+                )
+            else:
+                sql_statement = "insert into timestamp (riddle, user, timestamp) values ('{riddle}', '{user}', '{timestamp}');"\
+                                .format(riddle = num, user = username, timestamp = cur_time)
+                try:
+                    execute_sql_statement(sql_statement)
+                except mysql.connector.Error as e:
+                    if e.errno == 1644:
+                        await update.message.reply_text(
+                            "A group member has already answered this question! Use /check_progress to see more!"
+                        )
+            
+
 
         else:
             await update.message.reply_text(
