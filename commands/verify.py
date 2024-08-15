@@ -13,13 +13,7 @@ async def verify(update: Update, context: CallbackContext):
 
     if fetch_one(f"select * from user where username = '{user}';") != None:
         # the user exists
-        reply_keyboard = [
-            ["🔍 Get a Hint", "🙋🏻 Answer a Riddle"],
-            ["🗺️ Show Map", "🧩 Show Riddles"],
-            ["🧸 Show Items", "📸 Show Photos"],
-            ["🗣️ Talk to the Game Master"]
-        ]
-        await update.message.reply_text("You have been verified! Go forth now.", reply_markup=ReplyKeyboardMarkup(reply_keyboard))
+        await update.message.reply_text("You have been verified! Go forth now.", reply_markup=ReplyKeyboardMarkup(default_reply_keyboard))
         return ConversationHandler.END
 
     else:
@@ -57,13 +51,7 @@ async def password(update: Update, context: CallbackContext):
                             .format(username=user['username'],user_id=user['id'],first_name=user['first_name'], group_name = group_name)
         execute_sql_statement(sql_statement)
 
-        reply_keyboard = [
-            ["🔍 Get a Hint", "🙋🏻 Answer a Riddle"],
-            ["🗺️ Show Map", "🧩 Show Riddles"],
-            ["🧸 Show Items", "📸 Show Photos"],
-            ["🗣️ Talk to the Game Master"]
-        ]
-        await update.message.reply_text("You have now been verified! Go forth!", reply_markup=ReplyKeyboardMarkup(reply_keyboard))
+        await update.message.reply_text("You have now been verified! Go forth!", reply_markup=ReplyKeyboardMarkup(default_reply_keyboard))
         return ConversationHandler.END
 
     else:

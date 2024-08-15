@@ -71,18 +71,12 @@ async def answer(update: Update, context: CallbackContext):
     answer_list = ["", "kaffir limes","ORD BRIDGE","Urban Farm","Jurong Road","Urban Redevelopment"]
 
     if num < 6 and num > 0:
-        reply_keyboard = [
-            ["🔍 Get a Hint", "🙋🏻 Answer a Riddle"],
-            ["🗺️ Show Map", "🧩 Show Riddles"],
-            ["🧸 Show Items", "📸 Show Photos"],
-            ["🗣️ Talk to the Game Master"]
-        ]
         # check if answer matches
 
         if update.message.text.lower().strip() == answer_list[num].lower():
             await update.message.reply_text(
                 f"_{answer_list[num]}_ is correct\!",
-                reply_markup=ReplyKeyboardMarkup(reply_keyboard),
+                reply_markup=ReplyKeyboardMarkup(default_reply_keyboard),
                 parse_mode = "MarkdownV2" # give back the options from start
             )
             # insert database stuff here, only if correct
@@ -124,15 +118,8 @@ async def answer(update: Update, context: CallbackContext):
 
 async def no_answer(update: Update, context: CallbackContext):
     # for when they click answer then back
-    reply_keyboard = [
-        ["🔍 Get a Hint", "🙋🏻 Answer a Riddle"],
-        ["🗺️ Show Map", "🧩 Show Riddles"],
-        ["🧸 Show Items", "📸 Show Photos"],
-        ["🗣️ Talk to the Game Master"]
-    ]
-
     await update.message.reply_text(
         "I'll be waiting! In the meantime, here are some other options.",
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+        reply_markup=ReplyKeyboardMarkup(default_reply_keyboard)
         )
     return ConversationHandler.END
