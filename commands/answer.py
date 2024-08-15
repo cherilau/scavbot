@@ -38,7 +38,6 @@ async def choose_answer(update: Update, context: CallbackContext):
             "What riddle would you like to answer?",
             reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
         )
-    
     return CHOOSING
 
 
@@ -46,11 +45,26 @@ async def ask_for_answer(update: Update, context: CallbackContext):
     global num
     if update.message.text[-1] in ["1", "2", "3", "4", "5"]:
         num = int(update.message.text[-1])
-        await update.message.reply_text(
+        # get from database, see if answered yet
+        
+        sql_statement = '''
+        select * from timestamp t, user u 
+        where u.username = t.user
+        and t.riddle = {num}
+        and u.group_name = (select group_name from user where username = '{user}');
+        '''.format(num=num, user=update.message.from_user["username"])
+
+        if fetch_one(sql_statement) == None:
+            await update.message.reply_text(
                 f"What is your answer for riddle {num}?",
                 reply_markup=ReplyKeyboardRemove()
             )
-        return ANSWER
+            return ANSWER
+        else: 
+            await update.message.reply_text(
+                f"You or a teammate has already answered this",
+            )
+
 
 
 async def answer(update: Update, context: CallbackContext):
