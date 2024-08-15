@@ -6,11 +6,13 @@ import os
 from dotenv import load_dotenv
 
 # importing all the code i've put in a folder for no other reason than cleaniness and visual pleasure
+# using * is not good practice but i have gone too far. next time...
 from commands.contact import *
 from commands.hint import *
 from commands.show import *
 from commands.start import *
 from commands.answer import *
+from commands.verify import *
 
 logging.basicConfig(
     format = '%(asctime)s -- %(name)s -- %(levelname)s -- %(message)s',
@@ -39,6 +41,7 @@ def main():
     app.add_handler(CommandHandler("photo", photo)) # sends the photo
     app.add_handler(CommandHandler("contact", contact)) 
 
+
     # callback commands for hint
     app.add_handler(CallbackQueryHandler(hint, pattern='hint'))
     app.add_handler(CallbackQueryHandler(choose_hint_riddle, pattern='^riddle$'))
@@ -63,14 +66,30 @@ def main():
             ],
             ANSWER: [
                 MessageHandler(
-                    filters.TEXT, answer
+                    filters.TEXT & (~filters.COMMAND), answer
                 )
             ],
         },
-        fallbacks=[MessageHandler(filters.Regex("^↩️ Back$"), no_answer)],
+        fallbacks=[MessageHandler(filters.Regex("^↩️ Back$"), no_answer), CommandHandler("quit", quit)],
+    )
+
+    verify_conv_handler = ConversationHandler(
+        entry_points=[CommandHandler("verify", verify)],
+        states={
+            GROUP: [
+                MessageHandler(filters.TEXT & (~filters.COMMAND), group),
+            ],
+            PWD: [
+                MessageHandler(
+                    filters.TEXT & (~filters.COMMAND), password
+                )
+            ],
+        },
+        fallbacks=[CommandHandler("quit", quit)],
     )
 
     app.add_handler(conv_handler)
+    app.add_handler(verify_conv_handler)
     
 
     # Run the bot until the user presses Ctrl-C
