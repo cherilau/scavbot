@@ -1,13 +1,32 @@
 from common import * 
 from telegram import InputMediaPhoto
 
+async def show_all(update: Update, context: CallbackContext):
+    reply_keyboard = [
+        ["🗺️ Show Map", "🧩 Show Riddles"],
+        ["🧸 Show Items", "📸 Show Photos"],
+        ["⏪ Go Back"]
+    ]
+    await update.message.reply_text("Need a refresher of what to do? We got you.",
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+    )
+
+async def go_back(update: Update, context: CallbackContext):
+    await update.message.reply_text(
+        random.choice(tips),
+        reply_markup=ReplyKeyboardMarkup(default_reply_keyboard)
+    )
+
+
 async def map(update: Update, context: CallbackContext):
-    await update.message.reply_photo("images/scav_map.jpg", "Here's the map!")
+    await update.message.reply_photo("images/scav_map.jpg", "Here's the map, your guide to see,\nEverything you need is within the boundary.")
 
 async def riddles(update: Update, context: CallbackContext):
     await update.message.reply_text(
         """
-[100 points each]
+<i>[100 points each]</i>
+Crack each riddle, claim your prize,
+100 points before your eyes.
 
 <b>RIDDLE #1</b>
 <blockquote>Outside the school where lawyers train,
@@ -51,8 +70,9 @@ Authority made it right.</blockquote>
 async def items(update: Update, context: CallbackContext):
      await update.message.reply_text(
         """
-[10 points each]
-Here are the 10 items you need to find a snap a photo together with!\n
+<i>[10 points each]</i>
+Snap a pic with each city find,
+Ten items total, keep them in mind!\n
 1. E-bike
 2. Recycling Blue Bins 
 3. Public bicycle pump ready for use
@@ -63,12 +83,10 @@ Here are the 10 items you need to find a snap a photo together with!\n
 8. A bus stop displaying real-time arrival timings
 9. A contactless vending machine offering snacks
 10. Singapore flags proudly aligned
-"""
+""", parse_mode="HTML"
      )
 
 async def photo(update: Update, context: CallbackContext):
-    # await update.message.reply_text(
-    #     "[50 points each]")
     list_of_media = [InputMediaPhoto(media=open('images/photo_01.jpg', 'rb')),
                      InputMediaPhoto(media=open('images/photo_02.jpg', 'rb')),
                      InputMediaPhoto(media=open('images/photo_03.jpg', 'rb')),
@@ -79,4 +97,4 @@ async def photo(update: Update, context: CallbackContext):
                      InputMediaPhoto(media=open('images/photo_08.jpg', 'rb')),
                 ]
 
-    await update.message.reply_media_group(list_of_media, caption = "[50 points each]")
+    await update.message.reply_media_group(list_of_media, caption = "<i>[50 points each]</i>\nSeek the spot the picture's shown,\nSnap a photo of your own", parse_mode="HTML")
