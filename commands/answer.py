@@ -1,4 +1,5 @@
 from common import *
+from database import check_if_exists
 
 global num
 num = 0
@@ -6,6 +7,17 @@ num = 0
 CHOOSING, ANSWER = range(2)
 
 async def choose_answer(update: Update, context: CallbackContext):
+
+    # check if verified first
+    if ('verified' not in context.user_data):
+        user = update.message.from_user["username"]
+        if check_if_exists(f"select * from user where username = '{user}';") == True:
+            context.user_data['verified'] = True
+        else:
+            await update.message.reply_text(
+            "You have not been verified! Use /verify before you start answering riddles.")
+            return ConversationHandler.END
+        
 
     reply_keyboard = [
         ["Riddle 1", "Riddle 2"],
@@ -69,6 +81,7 @@ async def answer(update: Update, context: CallbackContext):
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard),
                 parse_mode = "MarkdownV2" # give back the options from start
             )
+
         else:
             await update.message.reply_text(
                 f"_{update.message.text}_ is incorrect\!\n\nHint: Check if the number of characters match\.",
