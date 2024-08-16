@@ -2,7 +2,7 @@ from common import *
 
 async def start(update: Update, context: CallbackContext):
     await update.message.reply_text(
-        "Welcome to Smart City Society's Scavenger Hunt! We're excited to have you here.\n\nUse this bot to help you along your journey today. Getting hints, looking at the mission brief, answering riddles — we got it all!\n\nUse the inline keyboard or /help to see the slash commands available. For any technical difficulties, DM @cherilau on telegram. Have fun!",
+        "Welcome to the Smart City Society Scavenger Hunt! 🎉 We’re thrilled to have you join us.\n\nThis bot is your ultimate guide for today’s adventure. Whether you need hints 🕵️‍♂️, want to review the mission brief 📜, or need help with riddles 🧩, we’ve got you covered! Explore the inline keyboard or use the /help command to discover all available options. If you run into any technical issues, please DM @cherilau on Telegram.\n\nHave a fantastic time hunting! 🚀🔍",
         reply_markup=ReplyKeyboardMarkup(default_reply_keyboard)
     )
     # await update.message.reply_text("test")
@@ -21,7 +21,7 @@ async def about(update: Update, context: CallbackContext):
                            [InlineKeyboardButton(text="SCS Membership Form", url = "https://forms.gle/WE9jEtmM8D43w64H6")]
                           ]
     await update.message.reply_text(
-        "Smart City Society is a student focusing on Smart Cities and its related technologies that help solve urbanisation problems and improve the quality of life of all inhabitants. Our regular events include networking sessions, industry talks, and an annual hackathon.",
+        "Smart City Society is a student-led organization dedicated to exploring Smart Cities and the innovative technologies that tackle urbanization challenges and enhance the quality of life for all residents. 🌆✨\n\nWe regularly host networking sessions 🤝, industry talks 🎤, and an exciting annual hackathon 💡. Join us to connect, learn, and innovate! 🚀",
         reply_markup= InlineKeyboardMarkup(scs_inline_keyboard), 
     )
     # await update.message.reply_text(

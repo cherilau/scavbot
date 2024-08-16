@@ -13,7 +13,7 @@ async def show_all(update: Update, context: CallbackContext):
 
 async def go_back(update: Update, context: CallbackContext):
     await update.message.reply_text(
-        random.choice(tips),
+        f"Going back!\n\n{random.choice(tips)}",
         reply_markup=ReplyKeyboardMarkup(default_reply_keyboard)
     )
 
@@ -32,34 +32,34 @@ Crack each riddle, claim your prize,
 <blockquote>Outside the school where lawyers train,
 runs a street with no lanes. 
 Read the signs and you will see,
-The fruit - _ _ _ _ _ _  _ _ _ _ _ you seek, adds fragrance and acidity to curries.</blockquote>
+The fruit - _ _ _ _ _ _   _ _ _ _ _ you seek, adds fragrance and acidity to curries.</blockquote>
 
 <b>RIDDLE #2</b> 
 <blockquote>On the same road as Singapore's oldest fire station.
 Stands a building full of history and colour
 Walk along the side and read about the bridges of this nation
 The one you seek, is named after Straits Settlements first governor,
- _ _ _  _ _ _ _ _ _</blockquote>
+ _ _ _   _ _ _ _ _ _</blockquote>
 
 <b>RIDDLE #3</b> 
-<blockquote>On top of a mall built for tech,
-lies a farm of freshly grown vege.
-If you observe with care and zest,
-Amid grey and white, find your quest.
-Hidden in "white" is what you seek.
-_ _ _ _ _  _ _ _ _</blockquote>
+<blockquote>On top of a tech mall where the future's bright,
+In a realm of grey and white, your quest takes flight.
+On one of two rooftops, a farm you will find,
+Accessible by staircase, where fresh veggies unwind.
+Hidden within "white" is what you seek.
+_ _ _ _ _   _ _ _ _</blockquote>
 
 <b>RIDDLE #4</b> 
 <blockquote>There’s a five-star hotel along the river.
 Go inside, and underneath, and discover,
-you will see what used to be.
-Marked by milestone 14 1/2, _ _ _ _ _ _  _ _ _ _, it shall be.</blockquote>
+Near a red post, you will see what used to be
+Marked by milestone 14 1/2, _ _ _ _ _ _   _ _ _ _, it shall be.</blockquote>
 
 <b>RIDDLE #5</b> 
-<blockquote>Near a museum where designs and innovation takes flight,
-A toucan playground brings joy and light.
+<blockquote>Near the scenic bay where modern landmarks soar high,
+A museum's close by, and a toucan playground catchs the eye
 Once drab, now a colourful delight,
-_ _ _ _ _  _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _   _ _ _ _ _ _ _ _ _ _ _ _ _ 
 Authority made it right.</blockquote>
 
         """, 
@@ -70,20 +70,23 @@ Authority made it right.</blockquote>
 async def items(update: Update, context: CallbackContext):
      await update.message.reply_text(
         """
-<i>[10 points each]</i>
-Snap a pic with each city find,
-Ten items total, keep them in mind!\n
-1. E-bike
-2. Recycling Blue Bins 
-3. Public bicycle pump ready for use
-4. Lightning rod atop a building
-5. Solar Panels 
-6. CCTV ensuring security
-7. Public Bench with Charging 
-8. A bus stop displaying real-time arrival timings
-9. A contactless vending machine offering snacks
-10. Singapore flags proudly aligned
-""", parse_mode="HTML"
+🎯 (10 points each) 🎯
+
+Snap a pic with each of these city finds—10 items in total. Keep your eyes peeled and your camera ready!
+
+1. 🚲 E-bike
+2. ♻️ Recycling Blue Bins
+3. 🚿 Public bicycle pump ready for use
+4. ⚡️ Lightning rod atop a building
+5. ☀️ Solar Panels
+6. 🎥 CCTV camera ensuring security
+7. ⚡️ Public Bench with Charging
+8. 🚌 A bus stop displaying real-time arrival timings
+9. 🍫 A contactless vending machine offering snacks
+10. 🇸🇬 Singapore flags proudly aligned
+
+Good luck and have fun hunting! 🌟📸
+""", 
      )
 
 async def photo(update: Update, context: CallbackContext):
