@@ -101,4 +101,4 @@ async def photo(update: Update, context: CallbackContext):
                      InputMediaPhoto(media=open('images/photo_08.jpg', 'rb')),
                 ]
 
-    await update.message.reply_media_group(list_of_media, caption = "<i>[50 points each]</i>\nSeek the spot the picture's shown,\nSnap a photo of your own", parse_mode="HTML")
+    await update.message.reply_media_group(list_of_media, caption = "<i>[50 points each]</i>\nSeek the spot the picture's shown,\nSnap a photo of your own\n\nTo submit your photo, message @cloewhat on Telegram.", parse_mode="HTML")
