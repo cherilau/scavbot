@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 
 # importing all the code i've put in a folder for no other reason than cleaniness and visual pleasure
 # using * is not good practice but i have gone too far. next time...
-from commands.contact import *
 from commands.hint import *
 from commands.show import *
 from commands.start import *
@@ -43,12 +42,13 @@ def main():
     app.add_handler(CommandHandler("check_progress", check_progress)) 
     app.add_handler(CommandHandler("about", about)) 
     app.add_handler(CommandHandler("help", help))
+    app.add_handler(CommandHandler("commands", commands))
 
     
     # inline button commands
     app.add_handler(MessageHandler(filters.Regex("🔍 Get a Hint"), hint))   
     app.add_handler(MessageHandler(filters.Regex("👁️ Show Mission Brief"), show_all))
-    # app.add_handler(MessageHandler(filters.Regex("🗣️ Talk to the Game Master"), contact))
+    app.add_handler(MessageHandler(filters.Regex("🆘 Help"), help))
     
     app.add_handler(MessageHandler(filters.Regex("🎯 Check Progress"), check_progress)) 
     app.add_handler(MessageHandler(filters.Regex("🏙️ About"), about)) 
