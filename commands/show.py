@@ -19,7 +19,8 @@ async def go_back(update: Update, context: CallbackContext):
 
 
 async def map(update: Update, context: CallbackContext):
-    await update.message.reply_photo("images/scav_map.jpg", "Here's the map, your guide to see,\nEverything you need is within the boundary.")
+    await update.message.reply_photo("images/scav_map.jpg", 
+    "Track your journey and find hidden Smart City features with this map! 🗺️🔍")
 
 async def riddles(update: Update, context: CallbackContext):
     await update.message.reply_text(

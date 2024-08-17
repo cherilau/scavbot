@@ -42,12 +42,14 @@ def main():
     app.add_handler(CommandHandler("contact", contact)) 
     app.add_handler(CommandHandler("check_progress", check_progress)) 
     app.add_handler(CommandHandler("about", about)) 
+    app.add_handler(CommandHandler("help", help))
 
     
     # inline button commands
     app.add_handler(MessageHandler(filters.Regex("🔍 Get a Hint"), hint))   
     app.add_handler(MessageHandler(filters.Regex("👁️ Show Mission Brief"), show_all))
-    app.add_handler(MessageHandler(filters.Regex("🗣️ Talk to the Game Master"), contact))
+    # app.add_handler(MessageHandler(filters.Regex("🗣️ Talk to the Game Master"), contact))
+    
     app.add_handler(MessageHandler(filters.Regex("🎯 Check Progress"), check_progress)) 
     app.add_handler(MessageHandler(filters.Regex("🏙️ About"), about)) 
 
@@ -79,7 +81,7 @@ def main():
                 )
             ],
         },
-        fallbacks=[MessageHandler(filters.Regex("^↩️ Back$"), no_answer), CommandHandler("quit", quit)],
+        fallbacks=[MessageHandler(filters.Regex("^↩️ Back$"), no_answer), CommandHandler("quit", quit), CommandHandler("help", help)],
     )
 
     verify_conv_handler = ConversationHandler(
@@ -94,7 +96,7 @@ def main():
                 )
             ],
         },
-        fallbacks=[CommandHandler("quit", quit)],
+        fallbacks=[CommandHandler("quit", quit), CommandHandler("help", help)],
     )
 
     app.add_handler(conv_handler)
