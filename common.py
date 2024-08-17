@@ -6,7 +6,8 @@ default_reply_keyboard = [
     ["🔍 Get a Hint"],
     ["👁️ Show Mission Brief"],
     ["🙋🏻 Answer a Riddle", "🎯 Check Progress"],
-    ["🗣️ Talk to the Game Master", "🏙️ About"]
+    ["🆘 Help", "🏙️ About"]
+    
 ]
 
 tips = [ # a fun easter egg (mainly because i need to say something to make sure the keyboard shows up)
@@ -19,7 +20,7 @@ tips = [ # a fun easter egg (mainly because i need to say something to make sure
     "Tip: Both inline buttons and slash commands can be used.",
     "Tip: This bot can be used in both group chats and DMs — you can even switch around!",
     "Tip: This bot can be used in both group chats and DMs — you can even switch around!",
-    "Tip: Check out the menu button.", # menu button has not been set up
+    # "Tip: Check out the menu button.", # menu button has not been set up
     "Tip: Hints don't affect your points.",
     "Tip: The time you first answer each riddle is being recorded. Zoom zoom!",
 ]
