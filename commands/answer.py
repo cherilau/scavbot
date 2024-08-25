@@ -157,7 +157,7 @@ async def answer(update: Update, context: CallbackContext):
 async def no_answer(update: Update, context: CallbackContext):
     # for when they click answer then back
     await update.message.reply_text(
-        random.choice(tips),
+        "Alright!",
         reply_markup=ReplyKeyboardMarkup(default_reply_keyboard)
         )
     return ConversationHandler.END

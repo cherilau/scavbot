@@ -13,7 +13,7 @@ async def show_all(update: Update, context: CallbackContext):
 
 async def go_back(update: Update, context: CallbackContext):
     await update.message.reply_text(
-        f"Going back!\n\n{random.choice(tips)}",
+        f"Going back!",
         reply_markup=ReplyKeyboardMarkup(default_reply_keyboard)
     )
 
