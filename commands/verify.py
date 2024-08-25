@@ -27,7 +27,7 @@ async def group(update: Update, context: CallbackContext):
         context.user_data["group"] = update.message.text.strip()
         return PWD
     else:
-        await update.message.reply_text("Hm... I don't see a group with that name. Let's try again. \n\n<i>Hint: You should have received a message from the Game Masters with your group name and password.\n\n Use /quit to stop the process anytime.")
+        await update.message.reply_text("Hm... I don't see a group with that name. Let's try again. \n\nHint: You should have received a message from the Game Masters with your group name and password.\n\n Use /quit to stop the process anytime.")
         return GROUP
 
 async def password(update: Update, context: CallbackContext):
